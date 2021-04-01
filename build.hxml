@@ -1,5 +1,7 @@
 -lib zerolib
+-lib uglifyjs
 -cp src
 -D analyzer-optimize
 -main Main
+--dce full
 --js docs/app.js
