@@ -17,7 +17,7 @@ HxOverrides.now = function() {
 var Main = function() { };
 Main.__name__ = true;
 Main.main = function() {
-	zero_extensions_ArrayExt.shuffle(Main.values);
+	Main.values = zero_extensions_ArrayExt.shuffle(Main.parse_list("_heymarjtheplantlady\t138\n\t\t_theplantmom\t25\n\t\tadayinmyleaf\t1\n\t\talicia_bish_40\t1\n\t\tbeleaf.it.or.knot\t22\n\t\tbeth_tessla\t53\n\t\tbethplantastic\t18\n\t\tbobatease\t14\n\t\tbridgees\t3\n\t\tbutterfly25059\t5\n\t\tclyo.d\t2\n\t\tcrazi_colaizzi\t9\n\t\tdailyplantita\t34\n\t\tfamily.plants.faith.love\t26\n\t\tgettingplantywithit\t1\n\t\tglassyjelly\t2\n\t\tgrinandgrow\t1\n\t\thappy_plantlife\t1\n\t\tiheart_succies\t19\n\t\tin_the_nodes\t17\n\t\tiz_sandraaa\t2\n\t\tjayy.plants\t5\n\t\tjennarously.botanical\t4\n\t\tjojosbizarreplantadventures\t14\n\t\tjuniesfoliage\t1\n\t\tladylambdasgarden\t3\n\t\tlblumsa_botanica\t4\n\t\tleafishliving\t5\n\t\tlesxliej__\t12\n\t\tlillillipop\t2\n\t\tmandalizia\t17\n\t\tmelissa_feng\t10\n\t\tmjajpa_maryjane\t5\n\t\tmrgreenlovesplants\t8\n\t\tnogreenthumbs\t27\n\t\tpatuloy.na.sumulong\t1\n\t\tplant.mutti\t1\n\t\tplant_babess\t19\n\t\tplantaverse2\t4\n\t\tplantdadee\t10\n\t\tplanting.seeds.nursery\t1\n\t\tplantlyxox\t1\n\t\tplantmommy_\t74\n\t\tplantsmom.Arkansas\t4\n\t\tplantswithlia\t13\n\t\tplanty.things.with.nessa\t6\n\t\tplanty_babies\t2\n\t\tpropagation_moomoo\t337\n\t\tqueen.bee.luvs.succies\t34\n\t\tsleepinfpikachu\t4\n\t\tsoufrieres.garden\t6\n\t\tsuccielover\t66\n\t\tsucculent.mom\t19\n\t\tswizzyplants\t28\n\t\tthejungleswoof\t7\n\t\ttheplantgemini\t8\n\t\tthepropagationpapi\t3\n\t\tthirstyassplants\t17\n\t\tthrivebotanical\t6\n\t\tvaidas444\t6\n\t\tvwliz\t29\n\t\tw1chyyplants\t10\n\t\tweirdlittlewildflower\t10\n\t\twokeandwitchy\t1\n\t\txclusvlstudio\t33"));
 	Main.animate_time = Main.animate_time_min;
 	Main.value = window.document.getElementById("value_container");
 	Main.value.onclick = Main.begin;
@@ -67,6 +67,22 @@ Main.animate = function() {
 			Main.animate();
 		});
 	});
+};
+Main.parse_list = function(s) {
+	var out = [];
+	var _g = 0;
+	var _g1 = s.split("\n");
+	while(_g < _g1.length) {
+		var data = _g1[_g++].split("\t");
+		var votes = Std.parseInt(data.pop());
+		var name = data.pop();
+		var _g2 = 0;
+		while(_g2 < votes) {
+			++_g2;
+			out.push("@" + name);
+		}
+	}
+	return out;
 };
 Math.__name__ = true;
 var Reflect = function() { };
@@ -123,6 +139,28 @@ Reflect.fields = function(o) {
 		}
 	}
 	return a;
+};
+var Std = function() { };
+Std.__name__ = true;
+Std.parseInt = function(x) {
+	if(x != null) {
+		var _g = 0;
+		var _g1 = x.length;
+		while(_g < _g1) {
+			var i = _g++;
+			var c = x.charCodeAt(i);
+			if(c <= 8 || c >= 14 && c != 32 && c != 45) {
+				var nc = x.charCodeAt(i + 1);
+				var v = parseInt(x,nc == 120 || nc == 88 ? 16 : 10);
+				if(isNaN(v)) {
+					return null;
+				} else {
+					return v;
+				}
+			}
+		}
+	}
+	return null;
 };
 var haxe_iterators_ArrayIterator = function(array) {
 	this.current = 0;

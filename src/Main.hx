@@ -1,3 +1,4 @@
+import haxe.zip.Entry;
 import zero.utilities.Timer;
 import zero.utilities.Ease;
 import zero.utilities.Tween;
@@ -6,6 +7,7 @@ import js.Browser.document as document;
 import js.Browser.window as window;
 
 using zero.extensions.Tools;
+using Std;
 
 class Main {
 	
@@ -23,7 +25,71 @@ class Main {
 	static var begun:Bool = false;
 
 	static function main() {
-		values.shuffle();
+		values = parse_list('_heymarjtheplantlady	138
+		_theplantmom	25
+		adayinmyleaf	1
+		alicia_bish_40	1
+		beleaf.it.or.knot	22
+		beth_tessla	53
+		bethplantastic	18
+		bobatease	14
+		bridgees	3
+		butterfly25059	5
+		clyo.d	2
+		crazi_colaizzi	9
+		dailyplantita	34
+		family.plants.faith.love	26
+		gettingplantywithit	1
+		glassyjelly	2
+		grinandgrow	1
+		happy_plantlife	1
+		iheart_succies	19
+		in_the_nodes	17
+		iz_sandraaa	2
+		jayy.plants	5
+		jennarously.botanical	4
+		jojosbizarreplantadventures	14
+		juniesfoliage	1
+		ladylambdasgarden	3
+		lblumsa_botanica	4
+		leafishliving	5
+		lesxliej__	12
+		lillillipop	2
+		mandalizia	17
+		melissa_feng	10
+		mjajpa_maryjane	5
+		mrgreenlovesplants	8
+		nogreenthumbs	27
+		patuloy.na.sumulong	1
+		plant.mutti	1
+		plant_babess	19
+		plantaverse2	4
+		plantdadee	10
+		planting.seeds.nursery	1
+		plantlyxox	1
+		plantmommy_	74
+		plantsmom.Arkansas	4
+		plantswithlia	13
+		planty.things.with.nessa	6
+		planty_babies	2
+		propagation_moomoo	337
+		queen.bee.luvs.succies	34
+		sleepinfpikachu	4
+		soufrieres.garden	6
+		succielover	66
+		succulent.mom	19
+		swizzyplants	28
+		thejungleswoof	7
+		theplantgemini	8
+		thepropagationpapi	3
+		thirstyassplants	17
+		thrivebotanical	6
+		vaidas444	6
+		vwliz	29
+		w1chyyplants	10
+		weirdlittlewildflower	10
+		wokeandwitchy	1
+		xclusvlstudio	33').shuffle();
 		animate_time = animate_time_min;
 		value = cast document.getElementById('value_container');
 		value.onclick = begin;
@@ -65,6 +131,17 @@ class Main {
 		Tween.get(Main).prop({ opacity: 1, offset: 0, scale: 1 })/*.ease(Ease.smoothStepOut)*/.duration(animate_time/2).on_complete(() -> {
 			Tween.get(Main).prop({ opacity: 0, offset: 1, scale: 0.5 })/*.ease(Ease.smoothStepIn)*/.duration(animate_time/2).on_complete(() -> animate());
 		});
+	}
+
+	static function parse_list(s:String) {
+		var out:Array<String> = [];
+		for (entry in s.split('\n')) {
+			var data = entry.split('\t');
+			var votes = data.pop().parseInt();
+			var name = data.pop();
+			for (i in 0...votes) out.push('@$name');
+		}
+		return out;
 	}
 
 	static var values = [
