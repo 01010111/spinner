@@ -1,5 +1,6 @@
+import js.html.InputElement;
+import js.html.TextAreaElement;
 import js.html.XMLHttpRequest;
-import haxe.zip.Entry;
 import zero.utilities.Timer;
 import zero.utilities.Ease;
 import zero.utilities.Tween;
@@ -28,11 +29,39 @@ class Main {
 		load_settings();
 	}
 
+	static function init_page() {
+		var list:TextAreaElement = cast document.getElementById('list');
+		list.onchange = () -> format_list(list.value);
+
+		var settings:DivElement = cast document.getElementById('settings');
+		var shuffle:InputElement = cast document.getElementById('shuffle');
+		var show_every_list_item:InputElement = cast document.getElementById('show_every_list_item');
+		var animate_time_min:InputElement = cast document.getElementById('animate_time_min');
+		var animate_time_max:InputElement = cast document.getElementById('animate_time_max');
+		var spin_time:InputElement = cast document.getElementById('spin_time');
+
+		shuffle.checked = Main.settings.shuffle;
+		show_every_list_item.checked = Main.settings.show_every_list_item;
+		animate_time_min.value = Main.settings.animate_time_min.string();
+		animate_time_max.value = Main.settings.animate_time_max.string();
+		spin_time.value = Main.settings.spin_time.string();
+
+		shuffle.onchange = () -> Main.settings.shuffle = shuffle.checked;
+		show_every_list_item.onchange = () -> Main.settings.show_every_list_item = show_every_list_item.checked;
+		animate_time_min.onchange = () -> Main.settings.animate_time_min = animate_time_min.value.parseFloat();
+		animate_time_max.onchange = () -> Main.settings.animate_time_max = animate_time_max.value.parseFloat();
+		spin_time.onchange = () -> Main.settings.spin_time = spin_time.value.parseFloat();
+
+		document.getElementById('list-button').onclick = () -> if (!begun) list.classList.toggle('hidden');
+		document.getElementById('settings-button').onclick = () -> if (!begun) settings.classList.toggle('hidden');
+	}
+
 	static function load_settings() {
 		var req = new XMLHttpRequest();
 		req.open('GET', 'settings.json');
 		req.onload = () -> {
 			settings = req.responseText.parse_json();
+			animate_time = settings.animate_time_min;
 			load_list();
 		}
 		req.send();
@@ -42,14 +71,17 @@ class Main {
 		var req = new XMLHttpRequest();
 		req.open('GET', 'list.txt');
 		req.onload = () -> {
-			values = parse_list(req.response);
-			if (settings.shuffle) values.shuffle();
-			animate_time = settings.animate_time_min;
+			format_list(req.response);
 			value = cast document.getElementById('value_container');
 			value.onclick = begin;
+			init_page();
 		}
 		req.send();
-	}	
+	}
+
+	static function format_list(src:String) {
+		values = parse_list(src);
+	}
 
 	static var last:Float;
 	static function update(time:Float) {
@@ -66,6 +98,7 @@ class Main {
 
 	static function begin() {
 		if (begun) return;
+		if (settings.shuffle) values.shuffle();
 		begun = true;
 		window.requestAnimationFrame(update);
 		var total_time = settings.spin_time;

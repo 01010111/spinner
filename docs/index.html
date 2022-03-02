@@ -12,6 +12,7 @@
 			font-size: 40px;
 			font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 			font-weight: bold;
+			box-sizing: border-box;
 		}
 		.container {
 			width: 100%;
@@ -36,11 +37,69 @@
 			background-color: #fed;
 			color: #243435;
 		}
+		.hidden {
+			display: none;
+		}
+		.button {
+			opacity: 0;
+			width: 128px;
+			height: 128px;
+			position: absolute;
+		}
+		.left {
+			left: 0;
+		}
+		.right {
+			right: 0;
+		}
+		.list {
+			position: absolute;
+			top: 10%;
+			left: 10%;
+			bottom: 10%;
+			right: 10%;
+			width: 80%;
+			font-size: 24px;
+			padding: 48px;
+		}
+		.settings {
+			position: absolute;
+			top: 10%;
+			left: 10%;
+			bottom: 10%;
+			right: 10%;
+			width: 80%;
+			padding: 48px;
+			background-color: white;
+		}
+		label, input {
+			font-size: 24px;
+			max-width: 128px;
+		}
 	</style>
 </head>
 <body>
+	<div class="button left" id="list-button"></div>
+	<div class="button right" id="settings-button"></div>
 	<div class="container">
 		<div id='value_container' class='value'>&nbsp;&nbsp;&nbsp;&nbsp;Spin&nbsp;&nbsp;&nbsp;&nbsp;</div>
+	</div>
+	<textarea class="list hidden" id="list"></textarea>
+	<div class="settings hidden" id="settings">
+		<input type="checkbox" id="shuffle">
+		<label>shuffle</label>
+		<br/>
+		<input type="checkbox" id="show_every_list_item">
+		<label>show_every_list_item</label>
+		<br/>
+		<input type="number" id="animate_time_min">
+		<label>animate_time_min</label>
+		<br/>
+		<input type="number" id="animate_time_max">
+		<label>animate_time_max</label>
+		<br/>
+		<input type="number" id="spin_time">
+		<label>spin_time</label>
 	</div>
 </body>
 </html>

@@ -18,6 +18,51 @@ Main.__name__ = true;
 Main.main = function() {
 	Main.load_settings();
 };
+Main.init_page = function() {
+	var list = window.document.getElementById("list");
+	list.onchange = function() {
+		Main.format_list(list.value);
+	};
+	var settings = window.document.getElementById("settings");
+	var shuffle = window.document.getElementById("shuffle");
+	var show_every_list_item = window.document.getElementById("show_every_list_item");
+	var animate_time_min = window.document.getElementById("animate_time_min");
+	var animate_time_max = window.document.getElementById("animate_time_max");
+	var spin_time = window.document.getElementById("spin_time");
+	shuffle.checked = Main.settings.shuffle;
+	show_every_list_item.checked = Main.settings.show_every_list_item;
+	animate_time_min.value = Std.string(Main.settings.animate_time_min);
+	animate_time_max.value = Std.string(Main.settings.animate_time_max);
+	spin_time.value = Std.string(Main.settings.spin_time);
+	shuffle.onchange = function() {
+		return Main.settings.shuffle = shuffle.checked;
+	};
+	show_every_list_item.onchange = function() {
+		return Main.settings.show_every_list_item = show_every_list_item.checked;
+	};
+	animate_time_min.onchange = function() {
+		var tmp = parseFloat(animate_time_min.value);
+		return Main.settings.animate_time_min = tmp;
+	};
+	animate_time_max.onchange = function() {
+		var tmp = parseFloat(animate_time_max.value);
+		return Main.settings.animate_time_max = tmp;
+	};
+	spin_time.onchange = function() {
+		var tmp = parseFloat(spin_time.value);
+		return Main.settings.spin_time = tmp;
+	};
+	window.document.getElementById("list-button").onclick = function() {
+		if(!Main.begun) {
+			list.classList.toggle("hidden");
+		}
+	};
+	window.document.getElementById("settings-button").onclick = function() {
+		if(!Main.begun) {
+			settings.classList.toggle("hidden");
+		}
+	};
+};
 Main.load_settings = function() {
 	var req = new XMLHttpRequest();
 	req.open("GET","settings.json");
@@ -27,6 +72,7 @@ Main.load_settings = function() {
 		var _g2 = req.responseText.split("\n");
 		while(_g1 < _g2.length) _g.push(_g2[_g1++].split("//")[0]);
 		Main.settings = JSON.parse(_g.join("\n"));
+		Main.animate_time = Main.settings.animate_time_min;
 		Main.load_list();
 	};
 	req.send();
@@ -35,15 +81,15 @@ Main.load_list = function() {
 	var req = new XMLHttpRequest();
 	req.open("GET","list.txt");
 	req.onload = function() {
-		Main.values = Main.parse_list(req.response);
-		if(Main.settings.shuffle) {
-			zero_extensions_ArrayExt.shuffle(Main.values);
-		}
-		Main.animate_time = Main.settings.animate_time_min;
+		Main.format_list(req.response);
 		Main.value = window.document.getElementById("value_container");
-		return Main.value.onclick = Main.begin;
+		Main.value.onclick = Main.begin;
+		Main.init_page();
 	};
 	req.send();
+};
+Main.format_list = function(src) {
+	Main.values = Main.parse_list(src);
 };
 Main.update = function(time) {
 	if(Main.last == null) {
@@ -61,6 +107,9 @@ Main.update = function(time) {
 Main.begin = function() {
 	if(Main.begun) {
 		return;
+	}
+	if(Main.settings.shuffle) {
+		zero_extensions_ArrayExt.shuffle(Main.values);
 	}
 	Main.begun = true;
 	window.requestAnimationFrame(Main.update);
@@ -165,6 +214,11 @@ Reflect.fields = function(o) {
 		}
 	}
 	return a;
+};
+var Std = function() { };
+Std.__name__ = true;
+Std.string = function(s) {
+	return js_Boot.__string_rec(s,"");
 };
 var haxe_iterators_ArrayIterator = function(array) {
 	this.current = 0;
