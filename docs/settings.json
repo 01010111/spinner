@@ -1,0 +1,7 @@
+{
+	"shuffle": true,
+	"show_every_list_item": true,
+	"animate_time_min": 0.01,
+	"animate_time_max": 0.2,
+	"spin_time": 6
+}
