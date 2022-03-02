@@ -13,3 +13,5 @@ The settings control various aspects of the spinner. They are all either boolean
 - **animate_time_min**: how long a single item will stay on screen while the spinner is running at its fastest in seconds (suggested: 0.01)
 - **animate_time_max**: how long a single item will stay on screen while the spinner is running at its slowest in seconds (suggested: 0.6)
 - **spin_time**: if `show_every_list_item` is set to `false`, this is how long a spin will last in seconds (suggested: 6)
+
+To change the settings, open docs/settings.json, edit it, then commit the changes. Be careful to only edit the values of the settings. It should be live in a few minutes.
